@@ -69,4 +69,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.8.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.8.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+
+    implementation project(':TMXProfiling-6.0-138')
+    implementation project(':TMXProfilingConnections-6.0-138')
+    implementation project(':cardinalmobilesdk-2.2.1-2')
+    implementation project(':visanet-lib-lite-release-2.1.5')
 }
