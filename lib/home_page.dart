@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_niubiz_payment_app/credentials.dart';
+import 'package:flutter_niubiz_payment_app/payment_form_properties.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
@@ -33,8 +34,11 @@ class _HomePageState extends State<HomePage> {
   Future<void> _openPaymentForm() async {
     print('Opening payment form');
     try {
-      await channel.invokeMethod('startPaymentActivity');
-    } on PlatformException catch (e, st) {
+      final myPaymentFormProperties = paymentFormProperties;
+      myPaymentFormProperties['securityToken'] = await _getSecurityToken();
+      await channel.invokeMethod(
+          'startPaymentActivity', myPaymentFormProperties);
+    } catch (e, st) {
       print(e);
       print(st);
     }
@@ -49,6 +53,6 @@ class _HomePageState extends State<HomePage> {
     );
     print('Response status ${response.statusCode}');
     print('Response body ${response.body}');
-    return json.decode(response.body);
+    return response.body;
   }
 }
