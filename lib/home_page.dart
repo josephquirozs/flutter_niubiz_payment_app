@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -34,5 +37,18 @@ class _HomePageState extends State<HomePage> {
       print(e);
       print(st);
     }
+  }
+
+  Future<String> _getSecurityToken() async {
+    final username = 'integraciones@niubiz.com.pe';
+    final password = '_7z3@8fF';
+    final credentials = base64.encode(utf8.encode('$username:$password'));
+    final response = await http.get(
+      'https://apisandbox.vnforappstest.com/api.security/v1/security',
+      headers: {'Authorization': 'Basic $credentials}'},
+    );
+    print('Response status ${response.statusCode}');
+    print('Response body ${response.body}');
+    return json.decode(response.body);
   }
 }
