@@ -15,20 +15,18 @@ class MainActivity : FlutterActivity() {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             // Note: this method is invoked on the main thread.
-            val paymentFormProperties = call.arguments as HashMap<String, Any>
             when (call.method) {
                 "startPaymentActivity" -> {
-                    startPaymentActivity(paymentFormProperties)
+                    startPaymentActivity(call.arguments)
                     result.success("Success")
                 }
-                else -> {
-                    result.notImplemented()
-                }
+                else -> result.notImplemented()
             }
         }
     }
 
-    private fun startPaymentActivity(paymentFormProperties: HashMap<String, Any>) {
+    private fun startPaymentActivity(arguments: Any) {
+        val paymentFormProperties = arguments as HashMap<String, Any>
 //        val custom = VisaNetViewAuthorizationCustom()
 //        custom.logoImage = R.drawable.tulogo
 //        custom.buttonColorMerchant = R.color.visanet_black
