@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
       myPaymentFormProperties['registerEmail'] = 'jperez@test.com';
       await channel.invokeMethod(
           'startPaymentActivity', myPaymentFormProperties);
+      await Future.delayed(Duration(seconds: 3));
     } catch (e, st) {
       print(e);
       print(st);
