@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static const channel = const MethodChannel('samples.flutter.dev/mychannel');
+  var _callingPaymentForm = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +24,15 @@ class _HomePageState extends State<HomePage> {
         title: Text('Niubiz Pago App'),
       ),
       body: Center(
-        child: RaisedButton(
-          child: Text('Abrir formulario de pago'),
-          onPressed: () => _openPaymentForm(),
+        child: SizedBox(
+          width: 300,
+          height: 50,
+          child: RaisedButton(
+            child: _callingPaymentForm
+                ? CircularProgressIndicator()
+                : Text('Abrir formulario de pago'),
+            onPressed: () => _openPaymentForm(),
+          ),
         ),
       ),
     );
@@ -33,6 +40,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _openPaymentForm() async {
     print('Opening payment form');
+    _callingPaymentForm = true;
+    setState(() {});
     try {
       final myPaymentFormProperties = paymentFormProperties;
       myPaymentFormProperties['securityToken'] = await _getSecurityToken();
@@ -41,6 +50,9 @@ class _HomePageState extends State<HomePage> {
     } catch (e, st) {
       print(e);
       print(st);
+    } finally {
+      _callingPaymentForm = false;
+      setState(() {});
     }
   }
 
