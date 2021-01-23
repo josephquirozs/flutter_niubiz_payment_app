@@ -45,6 +45,11 @@ class _HomePageState extends State<HomePage> {
     try {
       final myPaymentFormProperties = paymentFormProperties;
       myPaymentFormProperties['securityToken'] = await _getSecurityToken();
+      myPaymentFormProperties['purchaseNumber'] = '1790';
+      myPaymentFormProperties['amount'] = '15.22';
+      myPaymentFormProperties['registerName'] = 'Juan';
+      myPaymentFormProperties['registerLastname'] = 'Perez';
+      myPaymentFormProperties['registerEmail'] = 'jperez@test.com';
       await channel.invokeMethod(
           'startPaymentActivity', myPaymentFormProperties);
     } catch (e, st) {
