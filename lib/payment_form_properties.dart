@@ -11,4 +11,5 @@ final paymentFormProperties = {
   'registerName': null,
   'registerLastname': null,
   'registerEmail': null,
+  'userToken': null,
 };
