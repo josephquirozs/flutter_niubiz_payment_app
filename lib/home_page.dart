@@ -54,7 +54,6 @@ class _HomePageState extends State<HomePage> {
       // myPaymentFormProperties['userToken'] = 'demo@gmail.com';
       final response = await channel.invokeMethod<String>(
           'startPaymentActivity', myPaymentFormProperties);
-      print('Payment form response $response');
     } catch (e, st) {
       print(e);
       print(st);

@@ -9,7 +9,7 @@ import io.flutter.plugin.common.MethodChannel
 import lib.visanet.com.pe.visanetlib.VisaNet
 
 class MainActivity : FlutterActivity() {
-    private val TAG = "Main"
+    private val TAG = "Payment"
     private val CHANNEL = "samples.flutter.dev/mychannel"
     private lateinit var paymentChannelResult: MethodChannel.Result
 
@@ -46,6 +46,7 @@ class MainActivity : FlutterActivity() {
                     RESULT_OK -> data?.extras?.getString("keySuccess")
                     else -> data?.extras?.getString("keyError")
                 }
+                Log.i(TAG, "Payment form response $response")
                 paymentChannelResult.success(response)
             }
             else -> Log.i(TAG, "Request code not implemented")
