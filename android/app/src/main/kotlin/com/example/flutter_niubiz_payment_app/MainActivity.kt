@@ -11,16 +11,15 @@ import lib.visanet.com.pe.visanetlib.VisaNet
 class MainActivity : FlutterActivity() {
     private val TAG = "Main"
     private val CHANNEL = "samples.flutter.dev/mychannel"
+    private lateinit var paymentChannelResult: MethodChannel.Result
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             // Note: this method is invoked on the main thread.
+            paymentChannelResult = result
             when (call.method) {
-                "startPaymentActivity" -> {
-                    startPaymentActivity(call.arguments)
-                    result.success("Success")
-                }
+                "startPaymentActivity" -> startPaymentActivity(call.arguments)
                 else -> result.notImplemented()
             }
         }
@@ -43,14 +42,11 @@ class MainActivity : FlutterActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             VisaNet.VISANET_AUTHORIZATION -> {
-                val response: String?
-                if (resultCode == RESULT_OK) {
-                    response = data?.extras?.getString("keySuccess")
-                    Log.i(TAG, "Payment success $response")
-                } else {
-                    response = data?.extras?.getString("keyError")
-                    Log.i(TAG, "Payment error $response")
+                val response = when (resultCode) {
+                    RESULT_OK -> data?.extras?.getString("keySuccess")
+                    else -> data?.extras?.getString("keyError")
                 }
+                paymentChannelResult.success(response)
             }
             else -> Log.i(TAG, "Request code not implemented")
         }
