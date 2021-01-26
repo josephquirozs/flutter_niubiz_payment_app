@@ -44,12 +44,14 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
     try {
       final myPaymentFormProperties = paymentFormProperties;
+      myPaymentFormProperties.removeWhere((key, value) => value == null);
       myPaymentFormProperties['securityToken'] = await _getSecurityToken();
       myPaymentFormProperties['purchaseNumber'] = '1790';
       myPaymentFormProperties['amount'] = '15.22';
       myPaymentFormProperties['registerName'] = 'Juan';
       myPaymentFormProperties['registerLastname'] = 'Perez';
       myPaymentFormProperties['registerEmail'] = 'jperez@test.com';
+      // myPaymentFormProperties['userToken'] = 'demo@gmail.com';
       await channel.invokeMethod(
           'startPaymentActivity', myPaymentFormProperties);
       await Future.delayed(Duration(seconds: 3));
