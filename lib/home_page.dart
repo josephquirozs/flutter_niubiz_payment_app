@@ -52,9 +52,9 @@ class _HomePageState extends State<HomePage> {
       myPaymentFormProperties['registerLastname'] = 'Perez';
       myPaymentFormProperties['registerEmail'] = 'jperez@test.com';
       // myPaymentFormProperties['userToken'] = 'demo@gmail.com';
-      await channel.invokeMethod(
+      final response = await channel.invokeMethod<String>(
           'startPaymentActivity', myPaymentFormProperties);
-      await Future.delayed(Duration(seconds: 3));
+      print('Payment form response $response');
     } catch (e, st) {
       print(e);
       print(st);
