@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_niubiz_payment_app/credentials.dart';
-import 'package:flutter_niubiz_payment_app/payment_form_properties.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
@@ -43,15 +42,21 @@ class _HomePageState extends State<HomePage> {
     _callingPaymentForm = true;
     setState(() {});
     try {
-      final myPaymentFormProperties = paymentFormProperties;
-      myPaymentFormProperties.removeWhere((key, value) => value == null);
-      myPaymentFormProperties['securityToken'] = await _getSecurityToken();
-      myPaymentFormProperties['purchaseNumber'] = '1790';
-      myPaymentFormProperties['amount'] = '15.22';
-      myPaymentFormProperties['registerName'] = 'Juan';
-      myPaymentFormProperties['registerLastname'] = 'Perez';
-      myPaymentFormProperties['registerEmail'] = 'jperez@test.com';
-      // myPaymentFormProperties['userToken'] = 'demo@gmail.com';
+      final myPaymentFormProperties = {
+        'channel': 'mobile',
+        'countable': true,
+        'securityToken': await _getSecurityToken(),
+        'merchant': '456879852',
+        'purchaseNumber': '1790',
+        'amount': '15.22',
+        'endPointURL': 'https://apisandbox.vnforappstest.com/',
+        'certificateHost': 'apisandbox.vnforappstest.com',
+        'certificatePin': 'sha256/lmxiL6uol7hb4UwDxtk2qbF2lBnJc7zqZRT6sFfYWEE=',
+        'registerName': 'Juan',
+        'registerLastname': 'Perez',
+        'registerEmail': 'jperez@test.com',
+        // 'userToken': 'demo@gmail.com',
+      };
       final response = await channel.invokeMethod<String>(
           'startPaymentActivity', myPaymentFormProperties);
     } catch (e, st) {
